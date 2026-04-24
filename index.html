@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangPath | Language-Guided Robot Drawing</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #050505;
+            --card-bg: #0f0f11;
+            --cyan: #22d3ee;
+            --text: #e4e4e7;
+            --text-dim: #a1a1aa;
+            --border: #27272a;
+            --code-bg: #1a1a1c;
+        }
+
+        body {
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.7;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        .logo { display: flex; align-items: center; gap: 10px; font-weight: bold; font-size: 1.2rem; }
+        .logo-icon { background: var(--cyan); color: black; padding: 8px; border-radius: 8px; }
+
+        .lab-tag { font-size: 0.85rem; color: var(--text-dim); text-align: right; line-height: 1.4; }
+
+        /* Hero Section */
+        .hero { margin-bottom: 80px; text-align: center; }
+        .hero-meta { color: var(--cyan); font-weight: 600; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 10px; display: block; }
+        h1 { font-size: 3.5rem; line-height: 1.1; margin: 0 0 20px 0; font-weight: 800; }
+        .gradient-text { 
+            background: linear-gradient(90deg, var(--cyan), #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Sections */
+        .section { margin-bottom: 60px; }
+        h2 { font-size: 1.8rem; border-left: 4px solid var(--cyan); padding-left: 15px; margin-bottom: 25px; color: white; }
+        h3 { color: var(--cyan); font-size: 1.2rem; margin-top: 30px; }
+        p { margin-bottom: 20px; color: var(--text-dim); }
+
+        /* Cards and Media */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+
+        .media-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin: 20px 0;
+	    max-width: 700px;
+	    margin: 0 auto;   /* Centers it */
+        }
+
+        img, video { width: 100%; display: block; }
+
+        .citation { color: var(--cyan); font-weight: bold; cursor: help; font-size: 0.9em; }
+
+        /* Data Items */
+        .data-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .data-item {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        /* References */
+        .ref-list { font-size: 0.85rem; color: var(--text-dim); list-style: none; padding: 0; }
+        .ref-list li { margin-bottom: 10px; padding-left: 35px; position: relative; }
+        .ref-list li::before { content: attr(data-ref); position: absolute; left: 0; color: var(--cyan); font-weight: bold; }
+
+        /* Footer */
+        footer {
+            margin-top: 100px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            padding-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            nav { flex-direction: column; gap: 15px; text-align: center; }
+            .lab-tag { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="lab-tag">
+                University of Zagreb<br>
+                <strong>LARICS Laboratory</strong>
+            </div>
+        </nav>
+
+        <header class="hero">
+            <span class="hero-meta">SEMINAR PROJECT 2025</span>
+            <h1>Language-Guided <br><span class="gradient-text">Robot Drawing</span></h1>
+            <p>Research project exploring Transformer architectures for robotic trajectory generation from natural language commands.</p>
+        </header>
+
+        <section class="section">
+            <h2>Introduction & Related Work</h2>
+            <p>
+                This work is built on the premise that trajectory generation can be formulated as a <strong>sequence modeling problem</strong> <span class="citation">[1]</span>. 
+                In this framework, each sequence element consists of states, actions, and rewards. 
+                The system architecture draws inspiration from recent advancements in robotics and multimodal learning <span class="citation">[3, 5, 6]</span>.
+            </p>
+        </section>
+
+        <section class="section">
+            <h2>Architecture</h2>
+            <p>
+                The core model consists of a classic <strong>Transformer Decoder</strong> <span class="citation">[8]</span>. 
+                Temporal dependencies are handled using sinusoidal and cosinusoidal positional encodings. 
+                Encoded text features are fed into the <em>memory</em> input of each decoder layer.
+            </p>
+            <div class="card">
+                <h3>Language Processing (BERT)</h3>
+                <p>
+                    Text commands are processed using a pre-trained <strong>BERT model</strong> <span class="citation">[9]</span> to extract semantic relationships. 
+                    The BERT output (1 x 768) is projected to the decoder's <em>d_model</em> dimension via a linear layer.
+                    Target inputs to the decoder consist of previously visited positions, while the starting tool position initializes the generation process.
+                </p>
+            </div>
+            <div class="media-container">
+                <img src="images/image.jpg" alt="System Architecture Diagram">
+                <div style="padding: 10px; font-size: 0.8rem; text-align: center; color: var(--text-dim);">
+                    Figure 1: High-level architecture illustrating the integration of BERT encoder with the Transformer decoder.
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Data Representation</h2>
+            <p>Data is procedurally generated in Python and consists of a command label paired with a list of position/action tuples:</p>
+            <div style="background: var(--code-bg); padding: 15px; border-radius: 10px; font-family: monospace; border: 1px solid var(--border); margin-bottom: 20px; color: var(--cyan);">
+                [x1, y2, a1, s1, x2, y2, a2, s2 …]
+            </div>
+
+            <h3>Supported Logic:</h3>
+            <div class="data-list">
+                <div class="data-item"><strong>Primitives:</strong> Circles, lines, squares, triangles.</div>
+                <div class="data-item"><strong>Spatial Modifiers:</strong> Center, left/right side, corners, relative positioning.</div>
+                <div class="data-item"><strong>Composition:</strong> Multi-shape commands (e.g., "Circle and Triangle in the middle").</div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Experimental Results</h2>
+            <p>Currently trained models demonstrate high fidelity in generating trajectories for single shapes and spatial commands.</p>
+            
+            <div class="media-container">
+                <video controls muted loop>
+                    <source src="videos/video.mp4" type="video/mp4">
+                </video>
+                <div style="padding: 15px; background: var(--card-bg);">
+                    <strong>Prompt:</strong> <code style="color: var(--cyan);">"draw two semicircles"</code>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>References</h2>
+            <ul class="ref-list">
+                <li data-ref="[1]">M. Janner et al., "Offline Reinforcement Learning as One Big Sequence Modeling Problem," 2021.</li>
+                <li data-ref="[3]">M. Etcheverry, "Learning to generate human-like sketches with transformers," 2025.</li>
+                <li data-ref="[5]">A. Bucker et al., "LATTE: LAnguage Trajectory TransformEr," 2022.</li>
+                <li data-ref="[8]">A. Vaswani et al., "Attention Is All You Need," 2017/2023.</li>
+                <li data-ref="[9]">J. Devlin et al., "BERT: Pre-training of Deep Bidirectional Transformers," 2019.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>
+                © 2025 — Laboratory for Robotics and Intelligent Control Systems (LARICS)<br>
+                Faculty of Electrical Engineering and Computing (FER), University of Zagreb
+            </p>
+        </footer >
+    </div>
+
+</body>
+</html>
